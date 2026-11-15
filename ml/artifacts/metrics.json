@@ -1,0 +1,338 @@
+{
+  "feature_cols": [
+    "highest_education",
+    "imd_band",
+    "num_of_prev_attempts",
+    "studied_credits",
+    "date_registration",
+    "total_clicks",
+    "active_days",
+    "distinct_resources",
+    "clicks_per_active_day",
+    "clicks_last_2wk",
+    "recent_share",
+    "n_submitted",
+    "avg_score",
+    "min_score",
+    "avg_days_late",
+    "late_submissions",
+    "n_assessments_due",
+    "submission_rate",
+    "missed_assessments",
+    "clicks_vs_cohort",
+    "score_vs_cohort"
+  ],
+  "best_model_name": "LightGBM",
+  "model_comparison": {
+    "Logistic Regression": {
+      "accuracy": 0.7364,
+      "precision": 0.6985,
+      "recall": 0.6457,
+      "f1_score": 0.6711,
+      "roc_auc": 0.8027,
+      "pr_auc": 0.773,
+      "confusion_matrix": [
+        [
+          2465,
+          612
+        ],
+        [
+          778,
+          1418
+        ]
+      ]
+    },
+    "Random Forest": {
+      "accuracy": 0.7584,
+      "precision": 0.745,
+      "recall": 0.6384,
+      "f1_score": 0.6876,
+      "roc_auc": 0.8237,
+      "pr_auc": 0.799,
+      "confusion_matrix": [
+        [
+          2597,
+          480
+        ],
+        [
+          794,
+          1402
+        ]
+      ]
+    },
+    "XGBoost": {
+      "accuracy": 0.7514,
+      "precision": 0.7128,
+      "recall": 0.6749,
+      "f1_score": 0.6933,
+      "roc_auc": 0.8235,
+      "pr_auc": 0.7998,
+      "confusion_matrix": [
+        [
+          2480,
+          597
+        ],
+        [
+          714,
+          1482
+        ]
+      ]
+    },
+    "LightGBM": {
+      "accuracy": 0.7574,
+      "precision": 0.7227,
+      "recall": 0.6776,
+      "f1_score": 0.6994,
+      "roc_auc": 0.8236,
+      "pr_auc": 0.8004,
+      "confusion_matrix": [
+        [
+          2506,
+          571
+        ],
+        [
+          708,
+          1488
+        ]
+      ]
+    }
+  },
+  "global_feature_importance": [
+    {
+      "feature": "submission_rate",
+      "importance": 0.429
+    },
+    {
+      "feature": "score_vs_cohort",
+      "importance": 0.2902
+    },
+    {
+      "feature": "clicks_last_2wk",
+      "importance": 0.2584
+    },
+    {
+      "feature": "highest_education",
+      "importance": 0.2201
+    },
+    {
+      "feature": "avg_score",
+      "importance": 0.1953
+    },
+    {
+      "feature": "clicks_vs_cohort",
+      "importance": 0.1943
+    },
+    {
+      "feature": "avg_days_late",
+      "importance": 0.1909
+    },
+    {
+      "feature": "missed_assessments",
+      "importance": 0.156
+    },
+    {
+      "feature": "imd_band",
+      "importance": 0.1248
+    },
+    {
+      "feature": "recent_share",
+      "importance": 0.1196
+    },
+    {
+      "feature": "active_days",
+      "importance": 0.0975
+    },
+    {
+      "feature": "min_score",
+      "importance": 0.0792
+    },
+    {
+      "feature": "num_of_prev_attempts",
+      "importance": 0.0686
+    },
+    {
+      "feature": "clicks_per_active_day",
+      "importance": 0.0643
+    },
+    {
+      "feature": "n_submitted",
+      "importance": 0.0543
+    },
+    {
+      "feature": "date_registration",
+      "importance": 0.0449
+    },
+    {
+      "feature": "distinct_resources",
+      "importance": 0.044
+    },
+    {
+      "feature": "n_assessments_due",
+      "importance": 0.0428
+    },
+    {
+      "feature": "total_clicks",
+      "importance": 0.0353
+    },
+    {
+      "feature": "studied_credits",
+      "importance": 0.0262
+    },
+    {
+      "feature": "late_submissions",
+      "importance": 0.022
+    }
+  ],
+  "feature_stats": {
+    "highest_education": {
+      "min": 0.0,
+      "max": 4.0,
+      "mean": 1.77,
+      "median": 2.0,
+      "std": 0.75
+    },
+    "imd_band": {
+      "min": 0.0,
+      "max": 90.0,
+      "mean": 43.06,
+      "median": 40.0,
+      "std": 28.15
+    },
+    "num_of_prev_attempts": {
+      "min": 0.0,
+      "max": 6.0,
+      "mean": 0.16,
+      "median": 0.0,
+      "std": 0.47
+    },
+    "studied_credits": {
+      "min": 30.0,
+      "max": 630.0,
+      "mean": 75.76,
+      "median": 60.0,
+      "std": 37.73
+    },
+    "date_registration": {
+      "min": -311.0,
+      "max": 167.0,
+      "mean": -65.98,
+      "median": -53.0,
+      "std": 47.47
+    },
+    "total_clicks": {
+      "min": 0.0,
+      "max": 11102.0,
+      "mean": 582.64,
+      "median": 365.0,
+      "std": 690.11
+    },
+    "active_days": {
+      "min": 0.0,
+      "max": 86.0,
+      "mean": 25.66,
+      "median": 22.0,
+      "std": 17.67
+    },
+    "distinct_resources": {
+      "min": 0.0,
+      "max": 299.0,
+      "mean": 38.56,
+      "median": 32.0,
+      "std": 27.96
+    },
+    "clicks_per_active_day": {
+      "min": 1.0,
+      "max": 281.62,
+      "mean": 19.55,
+      "median": 16.95,
+      "std": 12.01
+    },
+    "clicks_last_2wk": {
+      "min": 0.0,
+      "max": 3900.0,
+      "mean": 87.43,
+      "median": 42.0,
+      "std": 137.03
+    },
+    "recent_share": {
+      "min": 0.0,
+      "max": 1.0,
+      "mean": 0.14,
+      "median": 0.12,
+      "std": 0.14
+    },
+    "n_submitted": {
+      "min": 0.0,
+      "max": 4.0,
+      "mean": 1.71,
+      "median": 2.0,
+      "std": 0.98
+    },
+    "avg_score": {
+      "min": 0.0,
+      "max": 100.0,
+      "mean": 75.37,
+      "median": 79.0,
+      "std": 17.03
+    },
+    "min_score": {
+      "min": 0.0,
+      "max": 100.0,
+      "mean": 68.36,
+      "median": 72.0,
+      "std": 21.08
+    },
+    "avg_days_late": {
+      "min": -55.0,
+      "max": 41.0,
+      "mean": -1.19,
+      "median": -0.5,
+      "std": 6.13
+    },
+    "late_submissions": {
+      "min": 0.0,
+      "max": 4.0,
+      "mean": 0.47,
+      "median": 0.0,
+      "std": 0.68
+    },
+    "n_assessments_due": {
+      "min": 0.0,
+      "max": 4.0,
+      "mean": 1.98,
+      "median": 2.0,
+      "std": 0.89
+    },
+    "submission_rate": {
+      "min": 0.0,
+      "max": 1.0,
+      "mean": 0.87,
+      "median": 1.0,
+      "std": 0.28
+    },
+    "missed_assessments": {
+      "min": 0.0,
+      "max": 4.0,
+      "mean": 0.26,
+      "median": 0.0,
+      "std": 0.64
+    },
+    "clicks_vs_cohort": {
+      "min": 0.0,
+      "max": 25.75,
+      "mean": 1.0,
+      "median": 0.73,
+      "std": 1.12
+    },
+    "score_vs_cohort": {
+      "min": -86.42,
+      "max": 36.84,
+      "mean": 0.0,
+      "median": 2.67,
+      "std": 16.1
+    }
+  },
+  "total_dataset_size": 26361,
+  "at_risk_ratio": 0.4164,
+  "cutoff_day": 60
+}

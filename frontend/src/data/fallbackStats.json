@@ -1,0 +1,25 @@
+{
+  "total_monitored_students": 50,
+  "high_risk_count": 19,
+  "moderate_risk_count": 16,
+  "low_risk_count": 15,
+  "average_early_score": 66.8,
+  "average_early_clicks": 677.9,
+  "risk_breakdown": [
+    {
+      "name": "High Risk (>60%)",
+      "value": 19,
+      "color": "#e11d48"
+    },
+    {
+      "name": "Moderate Risk (35-60%)",
+      "value": 16,
+      "color": "#d97706"
+    },
+    {
+      "name": "Low Risk (<35%)",
+      "value": 15,
+      "color": "#059669"
+    }
+  ]
+}
