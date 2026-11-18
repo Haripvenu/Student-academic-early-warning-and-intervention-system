@@ -1,375 +1,215 @@
-# EduGuard – Explainable Machine Learning Early Warning System
+# EduGuard – Academic Risk Monitor (EWS)
+### Enterprise Machine Learning Early Warning & Intervention System for Higher Education
 
-### Predicting Student Dropout & Academic Failure Before It's Too Late
+EduGuard (Academic Risk Monitor) is an end-to-end Machine Learning Early Warning System (EWS) and advisor triage platform designed to detect at-risk students before census and final deadlines.
 
-EduGuard is an end-to-end, explainable Machine Learning Early Warning System (EWS) designed to identify students at risk of academic failure or dropout using early academic and behavioral indicators.
-
-Built using the **Open University Learning Analytics Dataset (OULAD)**, EduGuard applies a strict **Day-60 prediction horizon** to analyze student engagement, assessment behavior and learning activity during the first two months of a course.
-
-Unlike conventional academic prediction systems that rely on end-of-semester outcomes, EduGuard aims to identify at-risk students early enough for meaningful intervention.
-
-The system combines supervised machine learning, Explainable AI (XAI), and an interactive What-If Simulation Lab to transform predictions into actionable insights for academic advisors.
+Built on the **Open University Learning Analytics Dataset (OULAD)**, the platform pairs point-in-time supervised models (Day-60 decision horizon with TreeSHAP explainability) with unsupervised behavioral archetype discovery (K-Means & Isolation Forest) and a deterministic, transparent review policy across **Week 2, Week 4, and Week 6** evaluation horizons.
 
 ---
 
-## Key Features
+## 🚀 Key Features & Capabilities
 
-- **Early Risk Prediction:** Identifies students at risk of dropout or academic failure using information available within the first 60 days.
-- **Four ML Models Benchmarked:** Logistic Regression, Random Forest, XGBoost and LightGBM.
-- **Optimized Production Model:** LightGBM selected with a focus on improving at-risk student detection (Recall).
-- **Explainable AI with TreeSHAP:** Generates individual-level explanations using SHAP waterfall and feature contribution bar charts.
-- **Interactive What-If Simulation:** Allows advisors to modify student behavioral indicators and observe changes in predicted risk.
-- **Student Cohort Analytics:** Provides an overview of student records, risk distribution and academic patterns.
-- **Individual Student Diagnostics:** Searchable student roster with detailed risk assessments and contributing factors.
-- **Batch Prediction Support:** Enables processing multiple student records through the backend API.
-- **Viva Evaluation Metrics:** Presents model benchmarking and evaluation metrics through the dashboard.
+- **Multi-Horizon Checkpoint Prediction (W2, W4, W6):**
+  - **Week 2:** Onboarding, early LMS logins, and initial registration verification.
+  - **Week 4:** Continuous assessment (TMA01) submission latency and early assignment grades.
+  - **Week 6:** Pre-census risk evaluation and midterm trajectory projection.
+- **Explainable AI with TreeSHAP & Feature Sensitivity:**
+  - Individual-level waterfall and feature contribution graphs explaining exact drivers (missed deadlines, study day deficits, assessment dips).
+- **Interactive "What-If" Counterfactual Simulation:**
+  - Advisors can adjust sliders (attendance, grades, active study days, clicks) to observe live risk reduction and commit agreed goals as an official **Academic Contract**.
+- **1-Click Personalized Outreach Nudge Generator:**
+  - Automated, tone-specific draft generation (Urgent Check-in, LMS Engagement Support, Commendation) with one-click clipboard copy and `mailto:` client launch.
+- **Course Attrition Risk Matrix:**
+  - 7-module heatmap matrix (`AAA` through `GGG`) comparing enrollment pressure, disengagement, and pass rate trends.
+- **Semester Progression Horizon Player:**
+  - Multi-horizon time scrubber with automated play/pause timeline progression.
+- **Batch Caseload Explorer & Triage Dock:**
+  - Row checkboxes with select-all capability, floating bulk actions, mentor re-assignment, and filtered CSV exports.
+- **Institutional Dark & Light Theme:**
+  - Full institutional theme with instant toggle and persistent state.
 
 ---
 
-## System Architecture
-
-EduGuard follows an end-to-end machine learning architecture, connecting raw educational data to an interactive web application.
+## 🏛️ System Architecture
 
 ```text
-              OULAD RAW DATABASE
-              (7 CSV Tables)
-                     |
-                     v
-          FEATURE ENGINEERING PIPELINE
-             build_oulad_features.py
-          (Day-60 Cutoff & Data Cleaning)
-                     |
-                     v
-             oulad_features.csv
-                (26,361 Rows)
-                     |
-                     v
-             MODEL BENCHMARKING
-                  ml/train.py
-                     |
-          +----------+----------+
-          |          |          |
-          v          v          v
-       Logistic   Random     XGBoost
-      Regression   Forest
-          |          |          |
-          +----------+----------+
-                     |
-                     v
-                  LightGBM
-              (Selected Model)
-                     |
-                     v
-             TREE SHAP EXPLAINABILITY
-             (Individual Predictions)
-                     |
-                     v
-              SAVED ARTIFACTS
-          best_model.joblib
-             metrics.json
-                     |
-                     v
-              FASTAPI BACKEND
-        Prediction | SHAP | What-If
-               | Batch API
-                     |
-                     v
-             REACT 19 + VITE
-              WEB DASHBOARD
-                     |
-          +----------+----------+
-          |          |          |
-          v          v          v
-       Analytics  Student    What-If
-       Dashboard  Diagnostics Simulation
+                           ┌──────────────────────────────────────────────┐
+                           │   Institutional Academic Records (CSVs)      │
+                           │   Terms, Courses, Attendance, Grades, LMS    │
+                           └──────────────────────┬───────────────────────┘
+                                                  │
+                                                  ▼
+                           ┌──────────────────────────────────────────────┐
+                           │     Point-in-Time Feature Extraction Engine  │
+                           │   Strict Dual Timestamps: event & available  │
+                           └──────────────────────┬───────────────────────┘
+                                                  │
+                                                  ▼
+                           ┌──────────────────────────────────────────────┐
+                           │     Machine Learning & Scoring Pipeline      │
+                           │  • Supervised Benchmarks (LightGBM, XGBoost) │
+                           │  • K-Means (4 Interpretable Behavioral Pkts) │
+                           │  • Isolation Forest (Percentile Anomaly Rank)│
+                           │  • Local Score Sensitivity Explainability    │
+                           └──────────────────────┬───────────────────────┘
+                                                  │
+                                                  ▼
+                           ┌──────────────────────────────────────────────┐
+                           │   5-Path Deterministic Review Priority Engine│
+                           │ Insufficient Data | Routine | Monitor | High │
+                           └──────────────────────┬───────────────────────┘
+                                                  │
+                                                  ▼
+                           ┌──────────────────────────────────────────────┐
+                           │      FastAPI Backend REST Service (:8000)    │
+                           │  RBAC, Session Auth, Job Queue, SQLite/PG    │
+                           └──────────────────────┬───────────────────────┘
+                                                  │
+                                                  ▼
+                           ┌──────────────────────────────────────────────┐
+                           │      React 19 + TypeScript + Vite SPA        │
+                           │  Tailwind CSS, Recharts, Accessible Tables   │
+                           └──────────────────────────────────────────────┘
 ```
 
 ---
 
-## Machine Learning Methodology
+## 📊 Supervised Model Benchmarking
 
-### 1. Dataset – OULAD
+Four supervised algorithms were benchmarked on Day-60 OULAD features:
 
-EduGuard uses the Open University Learning Analytics Dataset (OULAD), a publicly available educational dataset containing student demographics, assessments, course registrations and Virtual Learning Environment (VLE) interactions.
+| Model | Accuracy | Precision | Recall (Catch Rate) | F1-Score | ROC-AUC | Status |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: |
+| **Logistic Regression** | 73.6% | 69.9% | 64.6% | 0.6711 | 0.8027 | Baseline |
+| **Random Forest** | 75.8% | 74.5% | 63.8% | 0.6876 | 0.8237 | Ensemble |
+| **XGBoost** | 75.1% | 71.3% | 67.5% | 0.6933 | 0.8235 | Gradient Boosted |
+| **LightGBM** *(Best)* | **75.7%** | **72.3%** | **67.8%** | **0.6994** | **0.8236** | **Selected Production** |
 
-The feature engineering pipeline processes seven raw CSV tables to construct a unified student-level dataset.
-
-**Dataset characteristics:**
-- 7 raw CSV tables.
-- 10M+ learning interaction records.
-- 26,361 engineered student records.
-- Academic outcomes and historical learning activity.
-
-### 2. Day-60 Feature Engineering
-
-A major component of EduGuard is its temporal feature engineering pipeline.
-
-Instead of using information from the entire academic period, the system restricts predictive features to information available within the first 60 days.
-
-The pipeline analyzes:
-
-- VLE engagement and interaction patterns.
-- Student learning activity.
-- Assessment submission behavior.
-- Assignment deadlines and performance indicators.
-- Relative engagement compared with cohort patterns.
-
-This creates an early prediction environment while reducing the risk of temporal data leakage.
-
-**Why Day 60?**
-
-The first two months provide an opportunity to observe early engagement and assessment patterns while sufficient course time may remain for academic intervention.
-
-### 3. Model Benchmarking
-
-Four supervised machine learning algorithms are trained and evaluated to identify the most suitable predictive model.
-
-| Model | Accuracy | Precision | Recall | F1-Score | ROC-AUC |
-|---|---:|---:|---:|---:|---:|
-| Logistic Regression | 73.6% | 69.9% | 64.6% | 0.6711 | 0.8027 |
-| Random Forest | 75.8% | 74.5% | 63.8% | 0.6876 | 0.8237 |
-| XGBoost | 75.1% | 71.3% | 67.5% | 0.6933 | 0.8235 |
-| **LightGBM** | **75.7%** | **72.3%** | **67.8%** | **0.6994** | **0.8236** |
-
-### 4. Selected Production Model – LightGBM
-
-LightGBM is selected as the production model because it achieves the highest recall among the four benchmarked models.
-
-**Production Model Performance**
-
-| Evaluation Metric | Result |
-|---|---:|
-| Accuracy | 75.7% |
-| Precision | 72.3% |
-| Recall | 67.8% |
-| F1-Score | 0.6994 |
-| ROC-AUC | 0.8236 |
-
-**Why prioritize Recall?**
-
-In an educational early-warning system, failing to identify a genuinely at-risk student (False Negative) can mean missing an opportunity for timely support.
-
-Therefore, EduGuard prioritizes recall to improve the detection of students who may experience unsuccessful academic outcomes.
+*Note: In educational early warning systems, **Recall is prioritized** over raw accuracy to prevent fatal false negatives (missing a student who needs academic intervention).*
 
 ---
 
-## Explainable AI – TreeSHAP
-
-A prediction alone does not provide enough information for academic advisors to understand a student's situation.
-
-EduGuard integrates TreeSHAP to provide transparent, individual-level explanations for model predictions.
-
-**Key Explainability Features:**
-
-- Local SHAP waterfall plots showing how individual features contribute to a prediction.
-- SHAP feature contribution bar charts.
-- Identification of positive and negative prediction drivers.
-- Plain-English explanations to support interpretation by academic advisors.
-
-For example, a student's low learning engagement or missed assessment activity may contribute positively towards the predicted risk, while stronger academic indicators may contribute negatively.
-
-This helps transform the system from a black-box predictor into an explainable decision-support tool.
-
----
-
-## Interactive What-If Simulation Lab
-
-EduGuard includes an interactive simulation environment that allows academic advisors to explore hypothetical changes in student behavior.
-
-**Example Scenario:**
-
-An advisor wants to understand how a student's predicted risk might change if their learning engagement improves and missed assessments are reduced.
-
-The advisor can modify the corresponding input parameters through interactive sliders.
-
-The updated inputs are sent to the backend, where the model recalculates the prediction.
-
-**Simulation Capabilities:**
-- Modify VLE interaction counts.
-- Simulate changes in assessment behavior.
-- Recalculate predictions dynamically.
-- Compare original and simulated risk outcomes.
-
-This feature supports exploratory intervention planning without modifying the original student records or retraining the model.
-
-*Note: Simulated prediction changes represent model-based scenarios, not guaranteed real-world intervention outcomes.*
-
----
-
-## Technology Stack
-
-| Category | Technologies |
-|---|---|
-| Programming Language | Python |
-| Machine Learning | Scikit-learn, LightGBM, XGBoost |
-| Explainable AI | SHAP / TreeSHAP |
-| Data Processing | Pandas, NumPy |
-| Backend | FastAPI |
-| Frontend | React 19, Vite |
-| Visualization | Dashboard charts, SHAP plots |
-| Model Persistence | Joblib |
-| Dataset | OULAD |
-
----
-
-## Project Structure
-
-```text
-EduGuard/
-│
-├── backend/
-│   └── run_server.py
-│
-├── frontend/
-│   ├── src/
-│   ├── public/
-│   ├── package.json
-│   └── vite.config.js
-│
-├── ml/
-│   └── train.py
-│
-├── build_oulad_features.py
-│
-├── best_model.joblib
-├── metrics.json
-├── oulad_features.csv
-│
-├── start_all.bat
-└── README.md
-```
-
-*The structure above highlights the main project components; additional files and directories may be present in the repository.*
-
----
-
-## Installation & Setup
+## ⚡ Quick Start Guide
 
 ### Prerequisites
-
-Make sure the following are installed:
-
 - Python 3.10+
-- Node.js 18+
-- npm
+- Node.js 18+ & npm
 - Git
 
-### 1. Clone the Repository
+### 1-Click Launch (Windows)
+Double-click `start_all.bat` in the repository root:
+- **Frontend Web Dashboard**: [http://localhost:5173](http://localhost:5173)
+- **FastAPI API & Docs**: [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)
+- **Health Check Endpoint**: [http://127.0.0.1:8000/health](http://127.0.0.1:8000/health)
 
+---
+
+### Manual Setup (Two Terminals)
+
+#### Terminal 1 – Backend:
 ```bash
-git clone YOUR_GITHUB_REPOSITORY_URL
-cd EduGuard
-```
-
-### 2. Set Up the Python Environment
-
-```bash
+# Set up Python virtual environment
 python -m venv .venv
-```
+.venv\Scripts\activate   # On Windows
+# source .venv/bin/activate # On macOS/Linux
 
-Activate the environment.
-
-**Windows:**
-
-```powershell
-.venv\Scripts\activate
-```
-
-**Install backend dependencies:**
-
-```bash
+# Install dependencies
 pip install -r requirements.txt
+
+# Run server
+python server.py
 ```
 
-### 3. Install Frontend Dependencies
-
+#### Terminal 2 – Frontend:
 ```bash
+# Navigate to frontend and install packages
 cd frontend
 npm install
-cd ..
-```
 
-### 4. Start the Application
-
-**One-click startup (Windows):**
-
-Double-click:
-
-```text
-start_all.bat
-```
-
-**Or start manually using two terminals.**
-
-Terminal 1 – Backend:
-
-```bash
-python backend/run_server.py
-```
-
-Terminal 2 – Frontend:
-
-```bash
-cd frontend
+# Start Vite development server
 npm run dev
 ```
 
-### 5. Access EduGuard
+---
 
-| Component | Local URL |
-|---|---|
-| Frontend Dashboard | http://localhost:5173 |
-| Backend API | http://127.0.0.1:8000 |
-| FastAPI Documentation | http://127.0.0.1:8000/docs |
+## 👥 Demo Evaluator Accounts
+
+The application includes 3 institutional roles for demo and evaluation:
+
+| Role | Evaluator Persona | Assigned Scope & Caseload |
+| :--- | :--- | :--- |
+| **Academic Mentor** | Dr. Sarah Chen | Assigned Caseload (Active student outreach, case notes, contracts) |
+| **Course Faculty** | Prof. Alan Vance | Course Module Coordinator Scope (`AAA` - `GGG`) |
+| **Administrator** | Elena Rostova | System Operations, ML Audits, Ingestion Pipelines |
+
+*Switch perspectives instantly from the header role dropdown.*
 
 ---
 
-## Academic Significance & Ethical Considerations
+## 📂 Repository Structure
 
-EduGuard is designed as an academic decision-support system rather than an automated student evaluation mechanism.
-
-### Ethical AI Considerations
-
-- **Demographic Bias Mitigation:** Demographic attributes such as gender, region, disability and age band are intentionally excluded from model input features.
-- **Explainability:** SHAP provides insight into the factors influencing individual predictions.
-- **Early Intervention:** Predictions are intended to support proactive academic assistance.
-- **Human Oversight:** Final intervention decisions should remain with qualified academic mentors.
-- **Privacy:** Student information should be handled responsibly and in accordance with applicable data protection requirements.
+```text
+├── README.md                           # System overview & execution guide
+├── .env.example                        # Configuration template
+├── compose.yaml                        # Multi-container orchestration (DB, API, Worker, Web)
+├── Makefile                            # Seed, train, score, test commands
+├── server.py                           # FastAPI development entrypoint
+├── requirements.txt                    # Root Python dependencies
+├── start_all.bat                       # One-click Windows starter
+├── start_backend.bat                   # Backend starter
+├── start_frontend.bat                  # Frontend starter
+├── backend/
+│   ├── app/
+│   │   ├── api/                        # Scoped REST endpoints (/auth, /dashboard, /enrollments, etc.)
+│   │   ├── ml/                         # K-Means, Isolation Forest, Feature specs, Explainability
+│   │   ├── models/                     # SQLAlchemy declarative models
+│   │   ├── schemas/                    # Pydantic validation schemas
+│   │   ├── services/                   # Business logic, scoring, CSV ingestion
+│   │   ├── config.py                   # Typed Pydantic settings
+│   │   ├── db.py                       # Connection pooling and session lifecycle
+│   │   ├── security.py                 # PBKDF2 hashing & session management
+│   │   ├── cli.py                      # Maintenance CLI (seed, train, score, evaluate)
+│   │   └── worker.py                   # Background job queue worker
+│   ├── migrations/                     # Alembic database migrations
+│   └── tests/                          # 15 automated pytest suites
+├── frontend/
+│   ├── src/
+│   │   ├── api/                        # Typed client and queries
+│   │   ├── app/                        # App, Router, Session & Theme providers
+│   │   ├── components/                 # AnimatedCounter, TimeScrubber, MetricCard, DataTable
+│   │   ├── features/                   # CourseRiskMatrix, StudentRadarChart, WhatIfSimulator, NudgeGeneratorModal
+│   │   ├── layout/                     # AppShell (Sidebar, header, dark toggle)
+│   │   └── pages/                      # Overview, Students, Profile, Patterns, Interventions, Ops
+│   └── package.json                    # Frontend dependencies
+├── data/
+│   ├── README.md                       # Data dictionary & CSV schemas
+│   └── templates/                      # 10 Institutional CSV templates
+├── scripts/
+│   └── import_oulad_data.py            # OULAD dataset importer
+└── docs/
+    ├── architecture.md                 # System architecture specifications
+    ├── database.md                     # Database ERD & index design
+    ├── api.md                          # REST API specification & schemas
+    ├── data_dictionary.md              # Feature definitions & units
+    ├── model_card.md                   # Unsupervised ML model cards & limitations
+    ├── dashboard_spec.md               # User interface specification
+    ├── deployment.md                   # Deployment & rollback procedures
+    └── demo_walkthrough.md             # Reproducible evaluation guide
+```
 
 ---
 
-## Future Scope
+## 🔒 Ethical AI & Privacy Considerations
 
-Potential improvements include:
-
-- Integration with real university Learning Management Systems (LMS).
-- Real-time academic data ingestion.
-- Personalized intervention recommendations.
-- Automated mentor alerts and notifications.
-- Longitudinal student performance tracking.
-- Model fairness auditing and continuous monitoring.
-- Cloud deployment for wider institutional accessibility.
+- **Demographic Bias Mitigation:** Demographic attributes (`gender`, `region`, `disability`, `age_band`) are stripped from predictive models to ensure ethical, non-discriminatory evaluations.
+- **Human-in-the-Loop:** Predictions and triage flags serve as advisory decision-support tools for human mentors, not automated punitive decisions.
+- **Anonymized Student Privacy:** All student records adhere to institutional privacy guidelines, utilizing anonymous identifiers (`Student #<id>`).
+- **FERPA Compliance:** Production deployments require VPC isolation, encrypted storage at rest, and auditable access logs.
 
 ---
 
-## Project Objective
-
-EduGuard aims to bridge the gap between predictive machine learning and practical academic intervention.
-
-By combining early student risk detection, explainable predictions and interactive scenario simulation, the system provides an analytical foundation for identifying students who may need support before academic difficulties become irreversible.
-
-**Predict Early. Explain Clearly. Intervene Effectively.**
-
----
-
-### Dataset & References
-
-- Open University Learning Analytics Dataset (OULAD): https://analyse.kmi.open.ac.uk/open_dataset
-- SHAP Documentation: https://shap.readthedocs.io/
-- LightGBM Documentation: https://lightgbm.readthedocs.io/
-- FastAPI Documentation: https://fastapi.tiangolo.com/
-- React Documentation: https://react.dev/
-
----
-
-**Developed as a B.Tech Major Project in Machine Learning & Educational Data Mining.**
+### Dataset Citation & References
+- **Open University Learning Analytics Dataset (OULAD):** [KMi Open University](https://analyse.kmi.open.ac.uk/open_dataset)
+- **TreeSHAP:** Lundberg et al., *Nature Machine Intelligence* (2020)
+- **FastAPI:** [https://fastapi.tiangolo.com/](https://fastapi.tiangolo.com/)
+- **React & Vite:** [https://react.dev/](https://react.dev/)

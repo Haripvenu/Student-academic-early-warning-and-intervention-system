@@ -1,6 +1,6 @@
 @echo off
 echo ============================================================
-echo   EduGuard: Student Early Warning System (B.Tech ML Project)
+echo   Academic Risk Monitor: Early Warning System (EWS)
 echo ============================================================
 echo Starting Backend (FastAPI on http://127.0.0.1:8000)...
 start cmd /k "python server.py"
@@ -12,7 +12,8 @@ start cmd /k "cd frontend && npm run dev"
 
 echo.
 echo Both servers started!
-echo Open your browser at: http://localhost:5173
-echo API documentation at: http://127.0.0.1:8000/docs
+echo Frontend Dashboard: http://localhost:5173
+echo API Documentation:  http://127.0.0.1:8000/docs
+echo Health Check:       http://127.0.0.1:8000/health
 echo ============================================================
 pause

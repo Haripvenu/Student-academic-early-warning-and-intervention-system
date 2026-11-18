@@ -1,0 +1,71 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: arm-db
+    environment:
+      POSTGRES_DB: academic_risk
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgrespassword
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d academic_risk"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  api:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: arm-api
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000
+    environment:
+      DATABASE_URL: postgresql://postgres:postgrespassword@db:5432/academic_risk
+      SECRET_KEY: docker-compose-secret-key-production-ready
+      APP_ENV: production
+      ARTIFACTS_DIR: /app/ml/artifacts
+      DATA_DIR: /app/data
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - artifacts_data:/app/ml/artifacts
+      - ./data:/app/data
+
+  worker:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: arm-worker
+    command: python -m app.worker
+    environment:
+      DATABASE_URL: postgresql://postgres:postgrespassword@db:5432/academic_risk
+      SECRET_KEY: docker-compose-secret-key-production-ready
+      APP_ENV: production
+      ARTIFACTS_DIR: /app/ml/artifacts
+      DATA_DIR: /app/data
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - artifacts_data:/app/ml/artifacts
+      - ./data:/app/data
+
+  web:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: arm-web
+    ports:
+      - "80:80"
+    depends_on:
+      - api
+
+volumes:
+  postgres_data:
+  artifacts_data:

@@ -1,0 +1,16 @@
+offering_id,term_code,course_code,course_name,section,credits,faculty_user_id
+OFF-CS101-2024-F,2024-F,CS101,Intro to Computer Science,01,4,FAC-01
+OFF-MATH201-2024-F,2024-F,MATH201,Linear Algebra & Calculus,01,4,FAC-02
+OFF-ENG105-2024-F,2024-F,ENG105,Engineering Physics & Mechanics,01,3,FAC-03
+OFF-DATA102-2024-F,2024-F,DATA102,Principles of Data Science,01,3,FAC-01
+OFF-BIO110-2024-F,2024-F,BIO110,Cellular Biology & Genetics,01,4,FAC-04
+OFF-CS101-2025-S,2025-S,CS101,Intro to Computer Science,01,4,FAC-01
+OFF-MATH201-2025-S,2025-S,MATH201,Linear Algebra & Calculus,01,4,FAC-02
+OFF-ENG105-2025-S,2025-S,ENG105,Engineering Physics & Mechanics,01,3,FAC-03
+OFF-DATA102-2025-S,2025-S,DATA102,Principles of Data Science,01,3,FAC-01
+OFF-BIO110-2025-S,2025-S,BIO110,Cellular Biology & Genetics,01,4,FAC-04
+OFF-CS101-2025-F,2025-F,CS101,Intro to Computer Science,01,4,FAC-01
+OFF-MATH201-2025-F,2025-F,MATH201,Linear Algebra & Calculus,01,4,FAC-02
+OFF-ENG105-2025-F,2025-F,ENG105,Engineering Physics & Mechanics,01,3,FAC-03
+OFF-DATA102-2025-F,2025-F,DATA102,Principles of Data Science,01,3,FAC-01
+OFF-BIO110-2025-F,2025-F,BIO110,Cellular Biology & Genetics,01,4,FAC-04

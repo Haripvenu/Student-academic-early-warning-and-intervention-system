@@ -1,0 +1,6 @@
+record_id,student_id,high_school_gpa,prior_credits_earned,entry_qualification_tier,available_at_utc
+REC-1001,STU-1001,3.82,15,3,2024-08-01T00:00:00Z
+REC-1002,STU-1002,2.45,0,1,2024-08-01T00:00:00Z
+REC-1003,STU-1003,3.10,30,2,2024-08-01T00:00:00Z
+REC-1004,STU-1004,3.65,12,3,2025-08-01T00:00:00Z
+REC-1005,STU-1005,2.90,0,2,2025-08-01T00:00:00Z

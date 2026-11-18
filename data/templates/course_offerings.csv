@@ -1,0 +1,5 @@
+offering_id,term_code,course_code,course_name,section,credits,faculty_user_id
+OFF-CS101-2025F,2025-F,CS101,Introduction to Computer Science,01,4,FAC-01
+OFF-MATH201-2025F,2025-F,MATH201,Linear Algebra and Differential Equations,01,4,FAC-02
+OFF-ENG105-2025F,2025-F,ENG105,Engineering Mechanics,02,3,FAC-03
+OFF-DATA102-2025F,2025-F,DATA102,Data Analytics & Modeling,01,3,FAC-01
