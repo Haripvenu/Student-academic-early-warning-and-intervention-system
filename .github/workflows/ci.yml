@@ -20,9 +20,8 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r backend/requirements.txt pytest httpx
       - name: Run Pytest Test Suite
-        working-directory: ./backend
         run: |
-          python -m pytest tests -v
+          pytest -v
 
   frontend-checks:
     runs-on: ubuntu-latest
