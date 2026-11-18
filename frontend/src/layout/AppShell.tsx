@@ -2,11 +2,10 @@ import React, { useState, useEffect } from 'react';
 import {
   LayoutDashboard, Users, Network, HeartHandshake,
   UploadCloud, Cpu, LogOut, Menu, X, ChevronDown,
-  Search, GraduationCap, Building2, Sun, Moon
+  Search, GraduationCap, Building2
 } from 'lucide-react';
 import { useSession } from '../app/session';
 import { useToast } from '../components/Toast';
-import { useTheme } from '../components/ThemeContext';
 import { QuickSearchModal } from '../components/QuickSearchModal';
 
 interface Props {
@@ -17,7 +16,6 @@ interface Props {
 
 export const AppShell: React.FC<Props> = ({ currentPath, onNavigate, children }) => {
   const { currentUser, logout, switchDemoRole } = useSession();
-  const { theme, toggleTheme } = useTheme();
   const { success } = useToast();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [showRoleDropdown, setShowRoleDropdown] = useState(false);
@@ -348,31 +346,6 @@ export const AppShell: React.FC<Props> = ({ currentPath, onNavigate, children })
               <span style={{ color: 'var(--border-card)' }}>|</span>
               <span style={{ color: 'var(--text-muted)' }}>Active: <strong>Week 4 Horizon</strong></span>
             </div>
-
-            {/* Dark / Light Mode Toggle Button */}
-            <button
-              onClick={toggleTheme}
-              className="btn btn-outline btn-sm"
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                padding: '6px 10px',
-                borderRadius: 'var(--radius-sm)',
-                cursor: 'pointer',
-                background: 'var(--bg-card)',
-                borderColor: 'var(--border-card)',
-                color: 'var(--text-primary)',
-              }}
-              title={theme === 'dark' ? 'Switch to Light Institutional Theme' : 'Switch to Dark Institutional Theme'}
-              aria-label="Toggle institutional theme"
-            >
-              {theme === 'dark' ? (
-                <Sun size={15} color="#f59e0b" />
-              ) : (
-                <Moon size={15} color="#4f46e5" />
-              )}
-            </button>
 
             {/* Quick Demo Switcher Pill */}
             <div style={{ position: 'relative' }}>
