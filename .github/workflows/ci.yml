@@ -21,7 +21,9 @@ jobs:
           pip install -r backend/requirements.txt pytest httpx
       - name: Run Pytest Test Suite
         run: |
-          pytest -v
+          python -m pytest -v --tb=short 2>&1 | tee test_results.txt || true
+          cat test_results.txt >> $GITHUB_STEP_SUMMARY
+          python -m pytest -v
 
   frontend-checks:
     runs-on: ubuntu-latest
