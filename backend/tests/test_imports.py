@@ -1,5 +1,4 @@
 import pytest
-from .fixtures import db_session
 from backend.app.services.csv_import import CSVImportService
 from backend.app.models import Student
 

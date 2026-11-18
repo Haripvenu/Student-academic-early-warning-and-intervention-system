@@ -1,6 +1,5 @@
 import pytest
 from datetime import datetime, timedelta, timezone
-from .fixtures import db_session
 from backend.app.services.jobs import JobQueueService
 from backend.app.models import JobRun
 

@@ -1,6 +1,5 @@
 import pytest
 from datetime import datetime, timedelta
-from .fixtures import db_session
 from backend.app.models import (
     Term, CourseOffering, Student, Enrollment,
     AttendanceRecord, Assessment, Submission, EngagementEvent
