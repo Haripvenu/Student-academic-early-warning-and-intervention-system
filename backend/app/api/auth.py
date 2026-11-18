@@ -4,7 +4,7 @@ from datetime import datetime
 from ..db import get_db
 from ..models import User, UserSession
 from ..schemas.auth import LoginRequest, TokenResponse, UserResponse
-from ..security import verify_password, generate_session_token, calculate_expiry
+from ..security import verify_password, hash_password, generate_session_token, calculate_expiry
 from .dependencies import get_current_user
 
 router = APIRouter(prefix="/auth", tags=["Authentication"])
@@ -42,8 +42,27 @@ def demo_switch_account(role: str, db: Session = Depends(get_db)):
     """
     user = db.query(User).filter(User.role == role.lower()).first()
     if not user:
-        # Create user if needed
-        raise HTTPException(status_code=404, detail=f"No demo account found for role '{role}'")
+        demo_profiles = {
+            "mentor": ("MEN-01", "sarah.chen@campus.edu", "Dr. Sarah Chen"),
+            "faculty": ("FAC-01", "alan.vance@campus.edu", "Prof. Alan Vance"),
+            "admin": ("ADM-01", "admin@campus.edu", "Elena Rostova")
+        }
+        role_key = role.lower()
+        if role_key in demo_profiles:
+            uid, email, name = demo_profiles[role_key]
+            user = User(
+                user_id=uid,
+                email=email,
+                full_name=name,
+                role=role_key,
+                hashed_password=hash_password("password123"),
+                is_active=True
+            )
+            db.add(user)
+            db.commit()
+            db.refresh(user)
+        else:
+            raise HTTPException(status_code=404, detail=f"No demo account found for role '{role}'")
 
     token = generate_session_token()
     expiry = calculate_expiry(days=7)

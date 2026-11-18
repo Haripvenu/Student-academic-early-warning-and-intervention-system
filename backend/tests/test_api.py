@@ -1,6 +1,10 @@
 import pytest
 from fastapi.testclient import TestClient
 from backend.app.main import app
+from backend.app.db import init_db
+
+# Ensure database tables exist for API tests
+init_db()
 
 client = TestClient(app)
 

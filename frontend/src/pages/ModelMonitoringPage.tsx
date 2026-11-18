@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { queries } from '../api/queries';
 import { AsyncState } from '../components/AsyncState';
 import { useToast } from '../components/Toast';
-import { Cpu, Play, CheckCircle2, RotateCcw, Activity, ShieldCheck, Copy, Check, Sparkles, Terminal } from 'lucide-react';
+import { Cpu, Play, RotateCcw, Copy, Check } from 'lucide-react';
 
 export const ModelMonitoringPage: React.FC = () => {
-  const { success, error: toastError, info } = useToast();
+  const { success, error: toastError } = useToast();
   const [models, setModels] = useState<any[]>([]);
   const [jobs, setJobs] = useState<any[]>([]);
   const [evaluation, setEvaluation] = useState<any | null>(null);

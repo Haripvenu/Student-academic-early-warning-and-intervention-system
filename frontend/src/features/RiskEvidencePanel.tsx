@@ -1,5 +1,5 @@
 import React from 'react';
-import { CalendarCheck, BookOpenCheck, MousePointer, ShieldCheck, AlertCircle, CheckCircle2, AlertTriangle } from 'lucide-react';
+import { CalendarCheck, BookOpenCheck, MousePointer, CheckCircle2, AlertTriangle } from 'lucide-react';
 
 interface Props {
   evidenceBreakdown: Record<string, any>;

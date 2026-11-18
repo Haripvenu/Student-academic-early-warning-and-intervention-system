@@ -24,6 +24,14 @@ export const StudentExplorerPage: React.FC<Props> = ({ onNavigate }) => {
   const [offering, setOffering] = useState(params.get('offering') || 'ALL');
   const [priorityFilter, setPriorityFilter] = useState(params.get('priority') || 'ALL');
   const [search, setSearch] = useState('');
+  const [debouncedSearch, setDebouncedSearch] = useState('');
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearch(search);
+    }, 250);
+    return () => clearTimeout(timer);
+  }, [search]);
 
   const [enrollments, setEnrollments] = useState<EnrollmentListItem[]>([]);
   const [total, setTotal] = useState(0);
@@ -63,7 +71,7 @@ export const StudentExplorerPage: React.FC<Props> = ({ onNavigate }) => {
         checkpoint,
         course_code: courseCodeParam,
         priority: priorityFilter !== 'ALL' ? priorityFilter : undefined,
-        search: search.trim() || undefined,
+        search: debouncedSearch.trim() || undefined,
         page,
         page_size: pageSize,
       });
@@ -78,7 +86,7 @@ export const StudentExplorerPage: React.FC<Props> = ({ onNavigate }) => {
 
   useEffect(() => {
     loadEnrollments();
-  }, [term, checkpoint, offering, priorityFilter, page, search]);
+  }, [term, checkpoint, offering, priorityFilter, page, debouncedSearch]);
 
   const copyToClipboard = (text: string | number, e: React.MouseEvent) => {
     e.stopPropagation();
