@@ -21,7 +21,13 @@ jobs:
           pip install -r backend/requirements.txt pytest httpx
       - name: Run Pytest Test Suite
         run: |
-          pytest -v
+          pytest -v 2>&1 | tee /tmp/pytest.log || {
+            echo "::error::Pytest failed"
+            tail -n 100 /tmp/pytest.log | while IFS= read -r line; do
+              echo "::error::$line"
+            done
+            exit 1
+          }
 
   frontend-checks:
     runs-on: ubuntu-latest
