@@ -1,7 +1,10 @@
-from datetime import datetime
+from datetime import datetime, timezone
 from sqlalchemy import Column, String, Integer, DateTime, JSON, ForeignKey, Text
 from sqlalchemy.orm import relationship
 from ..db import Base
+
+def _utc_now() -> datetime:
+    return datetime.now(timezone.utc).replace(tzinfo=None)
 
 class ImportBatch(Base):
     __tablename__ = "import_batches"
@@ -13,7 +16,7 @@ class ImportBatch(Base):
     total_rows = Column(Integer, default=0)
     imported_rows = Column(Integer, default=0)
     error_rows = Column(Integer, default=0)
-    created_at = Column(DateTime, default=datetime.utcnow)
+    created_at = Column(DateTime, default=_utc_now)
 
     row_errors = relationship("ImportRowError", back_populates="batch", cascade="all, delete-orphan")
 
@@ -26,6 +29,6 @@ class ImportRowError(Base):
     source_record_id = Column(String(100), nullable=True)
     error_reason = Column(Text, nullable=False)
     raw_payload = Column(JSON, nullable=True)
-    created_at = Column(DateTime, default=datetime.utcnow)
+    created_at = Column(DateTime, default=_utc_now)
 
     batch = relationship("ImportBatch", back_populates="row_errors")

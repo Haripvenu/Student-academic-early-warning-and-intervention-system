@@ -26,13 +26,13 @@ def login(req: LoginRequest, db: Session = Depends(get_db)):
 
     return TokenResponse(
         session_token=token,
-        user=UserResponse.from_orm(user),
+        user=UserResponse.model_validate(user),
         expires_at=expiry
     )
 
 @router.get("/me", response_model=UserResponse)
 def get_current_profile(current_user: User = Depends(get_current_user)):
-    return UserResponse.from_orm(current_user)
+    return UserResponse.model_validate(current_user)
 
 @router.post("/demo-switch/{role}", response_model=TokenResponse)
 def demo_switch_account(role: str, db: Session = Depends(get_db)):
@@ -53,7 +53,7 @@ def demo_switch_account(role: str, db: Session = Depends(get_db)):
 
     return TokenResponse(
         session_token=token,
-        user=UserResponse.from_orm(user),
+        user=UserResponse.model_validate(user),
         expires_at=expiry
     )
 

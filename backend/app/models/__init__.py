@@ -1,3 +1,8 @@
+from datetime import datetime, timezone
+
+def get_utc_now() -> datetime:
+    return datetime.now(timezone.utc).replace(tzinfo=None)
+
 from .identity import User, UserSession, AccessScope
 from .academics import (
     Term, CourseOffering, Student, Enrollment,

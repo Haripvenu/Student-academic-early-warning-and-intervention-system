@@ -7,7 +7,7 @@ persists row-level errors, and ensures safe idempotent re-imports.
 import io
 import csv
 import uuid
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Dict, Any, List, Tuple
 from sqlalchemy.orm import Session
 from ..models import (
@@ -35,7 +35,8 @@ class CSVImportService:
         file_name: str,
         csv_content: str
     ) -> Dict[str, Any]:
-        batch_id = f"BATCH-{entity_type.upper()}-{datetime.utcnow().strftime('%Y%m%d%H%M%S%f')[:17]}-{uuid.uuid4().hex[:4]}"
+        now_str = datetime.now(timezone.utc).strftime('%Y%m%d%H%M%S%f')[:17]
+        batch_id = f"BATCH-{entity_type.upper()}-{now_str}-{uuid.uuid4().hex[:4]}"
         batch = ImportBatch(
             batch_id=batch_id,
             entity_type=entity_type,

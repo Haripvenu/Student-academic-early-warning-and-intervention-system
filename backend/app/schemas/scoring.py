@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 from typing import Optional, List, Dict, Any
 from datetime import datetime
 
@@ -26,8 +26,7 @@ class PublishedAssessmentSchema(BaseModel):
     evidence_breakdown: Dict[str, Any]
     score_sensitivities: Optional[List[FeatureSensitivitySchema]] = None
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 class ModelArtifactSchema(BaseModel):
     version_id: str
@@ -40,8 +39,7 @@ class ModelArtifactSchema(BaseModel):
     cluster_profiles_json: Optional[List[Dict[str, Any]]] = None
     created_at: datetime
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 class JobRunSchema(BaseModel):
     job_id: str
@@ -54,8 +52,7 @@ class JobRunSchema(BaseModel):
     created_at: datetime
     updated_at: datetime
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 class TriggerJobRequest(BaseModel):
     job_type: str # "train", "score", "evaluate"

@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 from typing import Optional, List, Dict, Any
 from datetime import datetime
 
@@ -8,8 +8,7 @@ class TermResponse(BaseModel):
     start_date: datetime
     end_date: datetime
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 class CourseOfferingResponse(BaseModel):
     offering_id: str
@@ -20,8 +19,7 @@ class CourseOfferingResponse(BaseModel):
     credits: int
     faculty_user_id: Optional[str] = None
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 class StudentSummary(BaseModel):
     student_id: str
@@ -30,8 +28,7 @@ class StudentSummary(BaseModel):
     email: str
     cohort_year: int
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 class EnrollmentListItem(BaseModel):
     enrollment_id: str

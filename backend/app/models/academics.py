@@ -1,7 +1,10 @@
-from datetime import datetime
+from datetime import datetime, timezone
 from sqlalchemy import Column, String, Integer, Float, DateTime, Boolean, ForeignKey, Date
 from sqlalchemy.orm import relationship
 from ..db import Base
+
+def _utc_now() -> datetime:
+    return datetime.now(timezone.utc).replace(tzinfo=None)
 
 class Term(Base):
     __tablename__ = "terms"
@@ -10,7 +13,7 @@ class Term(Base):
     term_name = Column(String(100), nullable=False)
     start_date = Column(DateTime, nullable=False)
     end_date = Column(DateTime, nullable=False)
-    created_at = Column(DateTime, default=datetime.utcnow)
+    created_at = Column(DateTime, default=_utc_now)
 
     offerings = relationship("CourseOffering", back_populates="term")
 
@@ -24,7 +27,7 @@ class CourseOffering(Base):
     section = Column(String(20), default="01")
     credits = Column(Integer, default=3)
     faculty_user_id = Column(String(50), nullable=True)
-    created_at = Column(DateTime, default=datetime.utcnow)
+    created_at = Column(DateTime, default=_utc_now)
 
     term = relationship("Term", back_populates="offerings")
     enrollments = relationship("Enrollment", back_populates="offering")
@@ -38,7 +41,7 @@ class Student(Base):
     last_name = Column(String(100), nullable=False)
     email = Column(String(255), unique=True, nullable=False)
     cohort_year = Column(Integer, default=2025)
-    created_at = Column(DateTime, default=datetime.utcnow)
+    created_at = Column(DateTime, default=_utc_now)
 
     enrollments = relationship("Enrollment", back_populates="student")
     prior_records = relationship("PriorAcademicRecord", back_populates="student")
@@ -52,7 +55,7 @@ class Enrollment(Base):
     enrolled_at_utc = Column(DateTime, nullable=False)
     status = Column(String(50), default="active")
     mentor_user_id = Column(String(50), nullable=True, index=True)
-    created_at = Column(DateTime, default=datetime.utcnow)
+    created_at = Column(DateTime, default=_utc_now)
 
     student = relationship("Student", back_populates="enrollments")
     offering = relationship("CourseOffering", back_populates="enrollments")

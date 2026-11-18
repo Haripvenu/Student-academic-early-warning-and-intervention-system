@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Sliders, RotateCcw, Sparkles, ArrowRight, ShieldCheck, CheckCircle2, TrendingDown } from 'lucide-react';
+import { Sliders, RotateCcw, Sparkles, ArrowRight } from 'lucide-react';
 import { PriorityBadge } from '../components/PriorityBadge';
 
 interface Props {
@@ -127,7 +127,7 @@ export const WhatIfSimulator: React.FC<Props> = ({
                 fontSize: '12.5px',
                 fontFamily: 'var(--font-mono)',
                 fontWeight: 700,
-                color: simulatedAnomaly < (observedAnomaly || 75) ? '#059669' : '#e11d48',
+                color: isImproved ? '#059669' : '#e11d48',
               }}
             >
               {simulatedAnomaly}% rank ({simulatedAnomaly - (observedAnomaly || 75) > 0 ? '+' : ''}{simulatedAnomaly - (observedAnomaly || 75)}%)

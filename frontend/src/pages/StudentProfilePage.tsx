@@ -13,8 +13,7 @@ import { NudgeGeneratorModal } from '../features/NudgeGeneratorModal';
 import { AsyncState } from '../components/AsyncState';
 import { useToast } from '../components/Toast';
 import {
-  ArrowLeft, PlusCircle, Printer, Clock, User, BookOpen,
-  Calendar, Award, Check, Copy, GraduationCap, Sparkles, MessageSquare, ShieldAlert, Mail
+  ArrowLeft, PlusCircle, Printer, Check, Copy, Mail
 } from 'lucide-react';
 
 interface Props {

@@ -2,7 +2,7 @@ import React from 'react';
 import { ReviewQueueItem } from '../api/types';
 import { PriorityBadge } from '../components/PriorityBadge';
 import { StudentAvatar } from '../components/StudentAvatar';
-import { ArrowRight, PlusCircle, ShieldAlert, CheckCircle2, ChevronRight, AlertTriangle } from 'lucide-react';
+import { PlusCircle, ShieldAlert, CheckCircle2, ChevronRight } from 'lucide-react';
 
 interface Props {
   items: ReviewQueueItem[];

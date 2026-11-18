@@ -3,8 +3,7 @@ import { queries } from '../api/queries';
 import { ClusterProfile } from '../api/types';
 import { AsyncState } from '../components/AsyncState';
 import { StudentAvatar } from '../components/StudentAvatar';
-import { Network, Users, ArrowRight, BarChart2, Sparkles, ShieldCheck, AlertCircle, Compass, Zap } from 'lucide-react';
-import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid } from 'recharts';
+import { ArrowRight, ShieldCheck, AlertCircle, Compass, Zap } from 'lucide-react';
 
 interface Props {
   onNavigate: (path: string) => void;

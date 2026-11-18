@@ -3,16 +3,20 @@ Transactional Background Job Queue Service.
 Implements lease-based job claiming, heartbeat updates, retry logic, and stale lease recovery.
 """
 
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from typing import Optional, List, Dict, Any
 from sqlalchemy.orm import Session
 from ..models import JobRun
 from ..config import settings
 
+def _get_utc_now() -> datetime:
+    return datetime.now(timezone.utc).replace(tzinfo=None)
+
 class JobQueueService:
     @staticmethod
     def enqueue_job(db: Session, job_type: str, payload: Dict[str, Any] = None) -> JobRun:
-        job_id = f"JOB-{job_type.upper()}-{datetime.utcnow().strftime('%Y%m%d%H%M%S')}"
+        now = _get_utc_now()
+        job_id = f"JOB-{job_type.upper()}-{now.strftime('%Y%m%d%H%M%S')}"
         job = JobRun(
             job_id=job_id,
             job_type=job_type,
@@ -27,7 +31,7 @@ class JobQueueService:
 
     @staticmethod
     def claim_next_job(db: Session, worker_id: str) -> Optional[JobRun]:
-        now = datetime.utcnow()
+        now = _get_utc_now()
         lease_expiration = now + timedelta(seconds=settings.JOB_LEASE_SECONDS)
 
         # 1. Recover abandoned or expired leased jobs
@@ -57,7 +61,7 @@ class JobQueueService:
 
     @staticmethod
     def heartbeat(db: Session, job_id: str, worker_id: str, progress: float) -> bool:
-        now = datetime.utcnow()
+        now = _get_utc_now()
         job = db.query(JobRun).filter(JobRun.job_id == job_id, JobRun.worker_id == worker_id).first()
         if not job:
             return False
@@ -78,11 +82,12 @@ class JobQueueService:
         if not job:
             return False
 
+        now = _get_utc_now()
         job.status = "completed"
         job.progress_pct = 100.0
         job.result_summary = summary
         job.lease_expires_at = None
-        job.updated_at = datetime.utcnow()
+        job.updated_at = now
         db.commit()
         return True
 
@@ -92,9 +97,10 @@ class JobQueueService:
         if not job:
             return False
 
+        now = _get_utc_now()
         job.status = "failed"
         job.error_message = error_msg
         job.lease_expires_at = None
-        job.updated_at = datetime.utcnow()
+        job.updated_at = now
         db.commit()
         return True

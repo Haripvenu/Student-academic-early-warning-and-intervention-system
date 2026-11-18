@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Play, Pause, FastForward, Clock, Calendar, CheckCircle2 } from 'lucide-react';
+import { Play, Pause, Clock } from 'lucide-react';
 
 interface HorizonStep {
   id: string;

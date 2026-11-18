@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Search, X, ArrowRight, UserCheck, BookOpen, AlertCircle } from 'lucide-react';
+import { Search, X, ArrowRight } from 'lucide-react';
 import { queries } from '../api/queries';
 import { PriorityBadge } from './PriorityBadge';
 import { StudentAvatar } from './StudentAvatar';

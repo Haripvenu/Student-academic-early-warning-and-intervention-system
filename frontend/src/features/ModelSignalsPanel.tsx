@@ -1,6 +1,6 @@
 import React from 'react';
 import { ScoreSensitivity } from '../api/types';
-import { Cpu, TrendingDown, TrendingUp, HelpCircle, Sparkles, Compass } from 'lucide-react';
+import { Cpu } from 'lucide-react';
 
 interface Props {
   clusterLabel?: string;

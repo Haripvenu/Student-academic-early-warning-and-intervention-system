@@ -4,6 +4,10 @@ import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, Cell, Refere
 import RadialGauge from '../components/RadialGauge';
 
 export default function StudentDetailView({ student, onBack, onOpenWhatIf }) {
+  const [mentorStatus, setMentorStatus] = useState('Pending Outreach');
+  const [mentorNotes, setMentorNotes] = useState('');
+  const [savedLog, setSavedLog] = useState(null);
+
   if (!student) {
     return (
       <div className="card" style={{ textAlign: 'center', padding: '60px' }}>
@@ -18,10 +22,6 @@ export default function StudentDetailView({ student, onBack, onOpenWhatIf }) {
   const { id_student, code_module, code_presentation, features, prediction } = student;
   const isHighRisk = prediction.risk_level === 'High Risk';
   const isModRisk = prediction.risk_level === 'Moderate Risk';
-
-  const [mentorStatus, setMentorStatus] = useState('Pending Outreach');
-  const [mentorNotes, setMentorNotes] = useState('');
-  const [savedLog, setSavedLog] = useState(null);
 
   const shapData = prediction.top_factors.map((f) => ({
     name: f.feature_name_display,

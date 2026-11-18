@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Shield, Lock, Mail, ArrowRight, GraduationCap, Building2, CheckCircle2 } from 'lucide-react';
+import { Lock, Mail, ArrowRight, GraduationCap } from 'lucide-react';
 import { useSession } from '../app/session';
 import { useToast } from '../components/Toast';
 

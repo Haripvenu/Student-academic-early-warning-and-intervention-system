@@ -1,7 +1,10 @@
-from datetime import datetime
+from datetime import datetime, timezone
 from sqlalchemy import Column, String, Integer, Float, DateTime, Boolean, ForeignKey, JSON, Text
 from sqlalchemy.orm import relationship
 from ..db import Base
+
+def _utc_now() -> datetime:
+    return datetime.now(timezone.utc).replace(tzinfo=None)
 
 class FeatureSnapshot(Base):
     __tablename__ = "feature_snapshots"
@@ -13,7 +16,7 @@ class FeatureSnapshot(Base):
     features_json = Column(JSON, nullable=False)
     coverage_json = Column(JSON, nullable=False)
     has_sufficient_coverage = Column(Boolean, default=True)
-    created_at = Column(DateTime, default=datetime.utcnow)
+    created_at = Column(DateTime, default=_utc_now)
 
 class ModelArtifact(Base):
     __tablename__ = "model_artifacts"
@@ -27,7 +30,7 @@ class ModelArtifact(Base):
     is_active = Column(Boolean, default=False)
     metrics_summary_json = Column(JSON, nullable=True)
     cluster_profiles_json = Column(JSON, nullable=True)
-    created_at = Column(DateTime, default=datetime.utcnow)
+    created_at = Column(DateTime, default=_utc_now)
 
 class ScoringRun(Base):
     __tablename__ = "scoring_runs"
@@ -43,7 +46,7 @@ class ScoringRun(Base):
     routine_count = Column(Integer, default=0)
     insufficient_data_count = Column(Integer, default=0)
     completed_at = Column(DateTime, nullable=True)
-    created_at = Column(DateTime, default=datetime.utcnow)
+    created_at = Column(DateTime, default=_utc_now)
 
 class PublishedAssessment(Base):
     __tablename__ = "published_assessments"
@@ -61,7 +64,7 @@ class PublishedAssessment(Base):
     primary_triggers_json = Column(JSON, nullable=True)
     evidence_breakdown_json = Column(JSON, nullable=False)
     score_sensitivities_json = Column(JSON, nullable=True)
-    created_at = Column(DateTime, default=datetime.utcnow)
+    created_at = Column(DateTime, default=_utc_now)
 
     enrollment = relationship("Enrollment", back_populates="assessments_scored")
 
@@ -77,5 +80,5 @@ class JobRun(Base):
     lease_expires_at = Column(DateTime, nullable=True)
     result_summary = Column(Text, nullable=True)
     error_message = Column(Text, nullable=True)
-    created_at = Column(DateTime, default=datetime.utcnow)
-    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    created_at = Column(DateTime, default=_utc_now)
+    updated_at = Column(DateTime, default=_utc_now, onupdate=_utc_now)

@@ -1,5 +1,5 @@
 import pytest
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from .fixtures import db_session
 from backend.app.services.jobs import JobQueueService
 from backend.app.models import JobRun
@@ -35,7 +35,7 @@ def test_abandoned_job_recovery(db_session):
     claimed = JobQueueService.claim_next_job(db_session, "worker-dead")
     
     # Artificially expire lease in the past
-    claimed.lease_expires_at = datetime.utcnow() - timedelta(minutes=10)
+    claimed.lease_expires_at = datetime.now(timezone.utc).replace(tzinfo=None) - timedelta(minutes=10)
     db_session.commit()
 
     # Next claim should recover abandoned job

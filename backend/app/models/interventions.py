@@ -1,7 +1,10 @@
-from datetime import datetime
+from datetime import datetime, timezone
 from sqlalchemy import Column, String, Integer, DateTime, Boolean, ForeignKey, Text
 from sqlalchemy.orm import relationship
 from ..db import Base
+
+def _utc_now() -> datetime:
+    return datetime.now(timezone.utc).replace(tzinfo=None)
 
 class InterventionCase(Base):
     __tablename__ = "intervention_cases"
@@ -15,8 +18,8 @@ class InterventionCase(Base):
     due_date = Column(DateTime, nullable=False, index=True)
     notes = Column(Text, nullable=True)
     created_by_user_id = Column(String(50), nullable=False)
-    created_at = Column(DateTime, default=datetime.utcnow)
-    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    created_at = Column(DateTime, default=_utc_now)
+    updated_at = Column(DateTime, default=_utc_now, onupdate=_utc_now)
 
     enrollment = relationship("Enrollment", back_populates="intervention_cases")
     events = relationship("InterventionEvent", back_populates="case", cascade="all, delete-orphan")
@@ -29,6 +32,6 @@ class InterventionEvent(Base):
     author_user_id = Column(String(50), nullable=False)
     event_type = Column(String(50), nullable=False) # "case_created", "status_changed", "note_added", "due_date_updated", "support_action_confirmed"
     description = Column(Text, nullable=False)
-    created_at = Column(DateTime, default=datetime.utcnow)
+    created_at = Column(DateTime, default=_utc_now)
 
     case = relationship("InterventionCase", back_populates="events")

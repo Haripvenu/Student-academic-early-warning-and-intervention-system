@@ -1,6 +1,6 @@
 import os
 from typing import List
-from pydantic_settings import BaseSettings
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 class Settings(BaseSettings):
     APP_NAME: str = "Academic Risk Monitor"
@@ -30,8 +30,6 @@ class Settings(BaseSettings):
     DEMO_TERM_CODE: str = "2014J"
     ANOMALY_CORROBORATION_PERCENTILE: float = 90.0
 
-    class Config:
-        env_file = ".env"
-        extra = "allow"
+    model_config = SettingsConfigDict(env_file=".env", extra="allow")
 
 settings = Settings()

@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 from typing import Optional, List
 from datetime import datetime
 
@@ -10,8 +10,7 @@ class InterventionEventSchema(BaseModel):
     description: str
     created_at: datetime
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 class InterventionCaseResponse(BaseModel):
     case_id: str
@@ -30,8 +29,7 @@ class InterventionCaseResponse(BaseModel):
     updated_at: datetime
     events: Optional[List[InterventionEventSchema]] = None
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 class InterventionCreateRequest(BaseModel):
     enrollment_id: str

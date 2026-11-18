@@ -7,7 +7,7 @@ import { PriorityBadge } from '../components/PriorityBadge';
 import { StudentAvatar } from '../components/StudentAvatar';
 import { AsyncState } from '../components/AsyncState';
 import { useToast } from '../components/Toast';
-import { ArrowRight, Download, Filter, Search, UserCheck, ShieldAlert, Sparkles, Copy, Check } from 'lucide-react';
+import { ArrowRight, Download, UserCheck, Copy, Check } from 'lucide-react';
 
 interface Props {
   onNavigate: (path: string) => void;

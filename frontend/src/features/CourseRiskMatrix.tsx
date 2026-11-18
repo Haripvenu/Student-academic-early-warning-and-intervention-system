@@ -1,8 +1,5 @@
 import React, { useState } from 'react';
-import {
-  Layers, ArrowUpRight, TrendingDown, BookOpen, AlertCircle,
-  CheckCircle, ArrowUpDown, ShieldAlert, Users
-} from 'lucide-react';
+import { Layers } from 'lucide-react';
 
 interface CourseMetric {
   code: string;

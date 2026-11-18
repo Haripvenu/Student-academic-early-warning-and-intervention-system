@@ -1,7 +1,7 @@
 import hashlib
 import hmac
 import secrets
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from typing import Optional
 from .config import settings
 
@@ -17,4 +17,4 @@ def generate_session_token() -> str:
     return secrets.token_urlsafe(32)
 
 def calculate_expiry(days: int = 7) -> datetime:
-    return datetime.utcnow() + timedelta(days=days)
+    return datetime.now(timezone.utc).replace(tzinfo=None) + timedelta(days=days)

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { queries } from '../api/queries';
 import { useToast } from '../components/Toast';
-import { UploadCloud, CheckCircle2, AlertTriangle, FileText, Download, ShieldCheck, Database, FileSpreadsheet } from 'lucide-react';
+import { UploadCloud, Download, FileSpreadsheet } from 'lucide-react';
 import { AsyncState } from '../components/AsyncState';
 
 export const ImportsPage: React.FC = () => {

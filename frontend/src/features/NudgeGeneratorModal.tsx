@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {
-  X, Mail, Copy, Check, ExternalLink, Send, Sparkles,
+  X, Copy, Check, ExternalLink, Sparkles,
   AlertTriangle, MessageSquare, HeartHandshake, CheckCircle2
 } from 'lucide-react';
 import { useToast } from '../components/Toast';

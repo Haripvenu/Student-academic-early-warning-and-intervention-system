@@ -1,7 +1,10 @@
-from datetime import datetime
+from datetime import datetime, timezone
 from sqlalchemy import Column, String, Integer, DateTime, Boolean, ForeignKey, JSON
 from sqlalchemy.orm import relationship
 from ..db import Base
+
+def _utc_now() -> datetime:
+    return datetime.now(timezone.utc).replace(tzinfo=None)
 
 class User(Base):
     __tablename__ = "users"
@@ -12,7 +15,7 @@ class User(Base):
     full_name = Column(String(255), nullable=False)
     role = Column(String(50), nullable=False) # "mentor", "faculty", "admin"
     is_active = Column(Boolean, default=True)
-    created_at = Column(DateTime, default=datetime.utcnow)
+    created_at = Column(DateTime, default=_utc_now)
 
     sessions = relationship("UserSession", back_populates="user", cascade="all, delete-orphan")
     access_scopes = relationship("AccessScope", back_populates="user", cascade="all, delete-orphan")
@@ -23,7 +26,7 @@ class UserSession(Base):
     session_token = Column(String(128), primary_key=True, index=True)
     user_id = Column(String(50), ForeignKey("users.user_id"), nullable=False, index=True)
     expires_at = Column(DateTime, nullable=False)
-    created_at = Column(DateTime, default=datetime.utcnow)
+    created_at = Column(DateTime, default=_utc_now)
 
     user = relationship("User", back_populates="sessions")
 
@@ -34,6 +37,6 @@ class AccessScope(Base):
     user_id = Column(String(50), ForeignKey("users.user_id"), nullable=False, index=True)
     scope_type = Column(String(50), nullable=False) # "course_offering", "student_cohort", "global"
     scope_value = Column(String(100), nullable=False) # offering_id or mentor_id or "*"
-    created_at = Column(DateTime, default=datetime.utcnow)
+    created_at = Column(DateTime, default=_utc_now)
 
     user = relationship("User", back_populates="access_scopes")

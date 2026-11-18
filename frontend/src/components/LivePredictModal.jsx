@@ -3,8 +3,6 @@ import { X, Cpu } from 'lucide-react';
 import { api } from '../services/api';
 
 export default function LivePredictModal({ isOpen, onClose, onDiagnoseResult }) {
-  if (!isOpen) return null;
-
   const [features, setFeatures] = useState({
     total_clicks: 75,
     active_days: 9,
@@ -22,6 +20,8 @@ export default function LivePredictModal({ isOpen, onClose, onDiagnoseResult }) 
 
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState(null);
+
+  if (!isOpen) return null;
 
   const applyPreset = (type) => {
     if (type === 'at-risk') {

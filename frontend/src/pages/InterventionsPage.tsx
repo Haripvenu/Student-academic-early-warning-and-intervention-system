@@ -5,12 +5,11 @@ import { AsyncState } from '../components/AsyncState';
 import { StudentAvatar } from '../components/StudentAvatar';
 import { useToast } from '../components/Toast';
 import {
-  HeartHandshake, Clock, CheckCircle2, AlertCircle, MessageSquare,
-  PlusCircle, Calendar, ShieldCheck, User, Filter, AlertTriangle
+  HeartHandshake, Clock, CheckCircle2, AlertCircle, MessageSquare, X
 } from 'lucide-react';
 
 export const InterventionsPage: React.FC = () => {
-  const { success, info } = useToast();
+  const { success } = useToast();
   const [statusFilter, setStatusFilter] = useState('ALL');
   const [cases, setCases] = useState<InterventionCase[]>([]);
   const [loading, setLoading] = useState(true);

@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import {
   LayoutDashboard, Users, Network, HeartHandshake,
-  UploadCloud, Cpu, LogOut, Menu, X, Shield, ChevronDown,
-  Search, Bell, Sparkles, GraduationCap, Building2, CheckCircle2,
-  Sun, Moon
+  UploadCloud, Cpu, LogOut, Menu, X, ChevronDown,
+  Search, GraduationCap, Building2, Sun, Moon
 } from 'lucide-react';
 import { useSession } from '../app/session';
 import { useToast } from '../components/Toast';
@@ -19,7 +18,7 @@ interface Props {
 export const AppShell: React.FC<Props> = ({ currentPath, onNavigate, children }) => {
   const { currentUser, logout, switchDemoRole } = useSession();
   const { theme, toggleTheme } = useTheme();
-  const { success, info } = useToast();
+  const { success } = useToast();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [showRoleDropdown, setShowRoleDropdown] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);

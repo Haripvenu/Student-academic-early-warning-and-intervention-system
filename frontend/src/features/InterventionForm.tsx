@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, Send, AlertCircle, CheckCircle } from 'lucide-react';
+import { X, Send } from 'lucide-react';
 
 interface Props {
   enrollmentId: string;
@@ -26,9 +26,9 @@ export const InterventionForm: React.FC<Props> = ({
 }) => {
   const [supportAction, setSupportAction] = useState('Academic Advising Check-in');
   const [priority, setPriority] = useState('High');
-  // Default due date: 7 days from today
-  const defaultDueDate = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
-  const [dueDate, setDueDate] = useState(defaultDueDate);
+  const [dueDate, setDueDate] = useState(() =>
+    new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]
+  );
   const [notes, setNotes] = useState('');
   const [confirmed, setConfirmed] = useState(false);
   const [submitting, setSubmitting] = useState(false);

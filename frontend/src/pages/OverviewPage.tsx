@@ -11,11 +11,10 @@ import { TimeScrubber } from '../components/TimeScrubber';
 import { CourseRiskMatrix } from '../features/CourseRiskMatrix';
 import { useToast } from '../components/Toast';
 import {
-  Users, AlertCircle, Clock, FileWarning, ArrowUpRight,
-  Sparkles, Calendar, BookOpen, ShieldAlert, Award, FileText
+  Users, AlertCircle, Clock, FileWarning, ArrowUpRight, ShieldAlert
 } from 'lucide-react';
 import {
-  ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, Legend, CartesianGrid, LineChart, Line, AreaChart, Area
+  ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, Legend, CartesianGrid, AreaChart, Area
 } from 'recharts';
 
 interface Props {

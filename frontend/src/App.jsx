@@ -10,7 +10,7 @@ import { api } from './services/api';
 import fallbackStudents from './data/fallbackStudents.json';
 import fallbackStats from './data/fallbackStats.json';
 import fallbackMetrics from './data/fallbackMetrics.json';
-import { AlertCircle, CheckCircle2, Server } from 'lucide-react';
+import { AlertCircle } from 'lucide-react';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('dashboard');

@@ -1,4 +1,5 @@
 import os
+from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
@@ -7,10 +8,16 @@ from .db import init_db, SessionLocal
 from .api.router import api_router
 from .models import ModelArtifact, PublishedAssessment, User
 
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    init_db()
+    yield
+
 app = FastAPI(
     title=settings.APP_NAME,
     description="Unsupervised Machine Learning Early Warning System for Higher Education",
-    version="1.0.0"
+    version="1.0.0",
+    lifespan=lifespan
 )
 
 # CORS
@@ -25,10 +32,6 @@ app.add_middleware(
 
 # API Router
 app.include_router(api_router)
-
-@app.on_event("startup")
-def on_startup():
-    init_db()
 
 @app.get("/health")
 def health_check():
