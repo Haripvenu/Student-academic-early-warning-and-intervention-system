@@ -29,11 +29,19 @@ export const SessionProvider: React.FC<{ children: React.ReactNode }> = ({ child
           setCurrentUser(user);
           localStorage.setItem('arm_user', JSON.stringify(user));
         } catch (e) {
-          console.warn('Session verification failed, logging out');
-          setCurrentUser(null);
-          setToken(null);
+          console.warn('Session verification failed, resetting to demo mentor');
           localStorage.removeItem('arm_session_token');
           localStorage.removeItem('arm_user');
+          try {
+            const res = await queries.demoSwitch('mentor');
+            setToken(res.session_token);
+            setCurrentUser(res.user);
+            localStorage.setItem('arm_session_token', res.session_token);
+            localStorage.setItem('arm_user', JSON.stringify(res.user));
+          } catch (err) {
+            setCurrentUser(null);
+            setToken(null);
+          }
         }
       } else {
         // Fallback demo auto-login as Dr. Sarah Chen (Mentor) if no session exists
