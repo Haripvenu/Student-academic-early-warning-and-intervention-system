@@ -1,6 +1,6 @@
 """
 Evidence-Based Review Priority Policy Engine.
-Implements deterministic policy matrix combining observed evidence and unsupervised signals:
+Implements deterministic policy matrix combining observed evidence and supervised risk signals:
 - Insufficient data (<2 covered families)
 - Routine (no concerns, including high-performing outliers)
 - Monitor (1 concerning family without model corroboration)

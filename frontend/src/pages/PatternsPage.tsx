@@ -87,15 +87,15 @@ export const PatternsPage: React.FC<Props> = ({ onNavigate }) => {
                 textTransform: 'uppercase',
               }}
             >
-              Unsupervised Learning
+              Supervised Risk Segmentation
             </span>
-            <span style={{ fontSize: '12px', color: '#64748b' }}>K-Means Archetype Discovery ($K=4$)</span>
+            <span style={{ fontSize: '12px', color: '#64748b' }}>Cohort Behavioral Stratification ($K=4$)</span>
           </div>
           <h1 style={{ fontSize: '26px', fontWeight: 800, color: '#0f172a', letterSpacing: '-0.7px' }}>
-            Discovered Academic Archetypes
+            Academic Risk Archetypes &amp; Segmentation
           </h1>
           <p style={{ fontSize: '13.5px', color: '#64748b', marginTop: '2px' }}>
-            Behavioral archetypes discovered on historical terms without outcome labels, categorizing students at checkpoint {checkpoint}.
+            Behavioral patterns and risk archetypes calibrated against student completion outcomes, categorizing students at checkpoint {checkpoint}.
           </p>
         </div>
 

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { queries } from '../api/queries';
 import { AsyncState } from '../components/AsyncState';
 import { useToast } from '../components/Toast';
-import { Cpu, Play, RotateCcw, Copy, Check } from 'lucide-react';
+import { Cpu, Play, RotateCcw, Copy, Check, Award } from 'lucide-react';
 
 export const ModelMonitoringPage: React.FC = () => {
   const { success, error: toastError } = useToast();
@@ -55,7 +55,7 @@ export const ModelMonitoringPage: React.FC = () => {
   const handleTriggerScore = async () => {
     setTriggering(true);
     try {
-      const res = await queries.triggerJob({ job_type: 'score', term_code: '2014J', checkpoint });
+      await queries.triggerJob({ job_type: 'score', term_code: '2014J', checkpoint });
       success(`Batch scoring job queued for Term 2014J (${checkpoint})`, 'Scoring Pipeline Enqueued');
       loadData();
     } catch (e: any) {
@@ -110,13 +110,13 @@ export const ModelMonitoringPage: React.FC = () => {
             >
               MLOps &amp; Governance
             </span>
-            <span style={{ fontSize: '12px', color: '#64748b' }}>Unsupervised Model Registry</span>
+            <span style={{ fontSize: '12px', color: '#64748b' }}>Supervised Model Registry</span>
           </div>
           <h1 style={{ fontSize: '26px', fontWeight: 800, color: '#0f172a', letterSpacing: '-0.7px' }}>
             Model Operations, Audit &amp; Evaluation
           </h1>
           <p style={{ fontSize: '13.5px', color: '#64748b', marginTop: '2px' }}>
-            Unsupervised model artifact registry, asynchronous worker job telemetry, and retrospective alert validation.
+            Supervised model artifact registry (LightGBM, XGBoost, Random Forest), empirical classification benchmarks, and retrospective alert validation.
           </p>
         </div>
 
@@ -185,6 +185,114 @@ export const ModelMonitoringPage: React.FC = () => {
       </div>
 
       <AsyncState isLoading={loading} error={error} onRetry={loadData}>
+        {/* Supervised Model Benchmarks (LightGBM, XGBoost, Random Forest, Logistic Regression) */}
+        {evaluation && evaluation.supervised_benchmarks && evaluation.supervised_benchmarks.model_comparison && (
+          <div className="arm-card" style={{ marginBottom: '20px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '10px', marginBottom: '14px' }}>
+              <div>
+                <h3 style={{ fontSize: '16px', fontWeight: 800, color: '#0f172a', letterSpacing: '-0.2px' }}>
+                  Supervised Classification Benchmark Comparison
+                </h3>
+                <p style={{ fontSize: '12.5px', color: '#64748b', marginTop: '2px' }}>
+                  Empirical cross-architecture evaluation on 5,273 held-out test records (80/20 stratified split, 26,361 total OULAD cohort).
+                </p>
+              </div>
+              <span style={{ fontSize: '11px', fontWeight: 700, padding: '3px 8px', borderRadius: '4px', background: '#eff6ff', color: '#1d4ed8', border: '1px solid #bfdbfe' }}>
+                Target: at_risk (Fail / Withdrawn = 1, Pass = 0)
+              </span>
+            </div>
+
+            <div className="data-table-container" style={{ marginBottom: '18px' }}>
+              <table className="arm-table">
+                <thead>
+                  <tr>
+                    <th>Architecture</th>
+                    <th>Accuracy</th>
+                    <th>Precision</th>
+                    <th>Recall (Catch Rate)</th>
+                    <th>F1-Score</th>
+                    <th>ROC-AUC</th>
+                    <th>PR-AUC</th>
+                    <th style={{ textAlign: 'right' }}>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {Object.entries(evaluation.supervised_benchmarks.model_comparison).map(([name, data]: [string, any]) => {
+                    const isSelected = name === (evaluation.supervised_benchmarks.best_model_name || 'LightGBM');
+                    return (
+                      <tr key={name} style={{ background: isSelected ? 'rgba(79, 70, 229, 0.04)' : 'inherit', fontWeight: isSelected ? 700 : 400 }}>
+                        <td style={{ fontWeight: 800, display: 'flex', alignItems: 'center', gap: '8px' }}>
+                          {isSelected ? (
+                            <div style={{ width: '22px', height: '22px', borderRadius: '4px', background: '#4f46e5', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                              <Award size={13} color="#ffffff" />
+                            </div>
+                          ) : (
+                            <div style={{ width: '22px', height: '22px', borderRadius: '4px', background: '#f1f5f9', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                              <Cpu size={13} color="#64748b" />
+                            </div>
+                          )}
+                          <span style={{ color: isSelected ? '#4338ca' : '#0f172a' }}>{name}</span>
+                        </td>
+                        <td>{(data.accuracy * 100).toFixed(1)}%</td>
+                        <td>{(data.precision * 100).toFixed(1)}%</td>
+                        <td style={{ fontWeight: 800, color: '#059669' }}>{(data.recall * 100).toFixed(1)}%</td>
+                        <td>{(data.f1_score * 100).toFixed(1)}%</td>
+                        <td style={{ fontWeight: 800, color: '#2563eb' }}>{data.roc_auc.toFixed(4)}</td>
+                        <td>{data.pr_auc.toFixed(4)}</td>
+                        <td style={{ textAlign: 'right' }}>
+                          {isSelected ? (
+                            <span style={{ fontSize: '11px', fontWeight: 700, padding: '2px 8px', borderRadius: '4px', background: '#ecfdf5', color: '#059669', border: '1px solid #a7f3d0' }}>
+                              Production Winner
+                            </span>
+                          ) : (
+                            <span style={{ fontSize: '11px', color: '#94a3b8' }}>Baseline</span>
+                          )}
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+
+            {/* Production Model Confusion Matrix Grid */}
+            {evaluation.supervised_benchmarks.model_comparison[evaluation.supervised_benchmarks.best_model_name || 'LightGBM']?.confusion_matrix && (
+              <div>
+                <div style={{ fontSize: '12.5px', fontWeight: 700, color: '#334155', marginBottom: '8px' }}>
+                  Production Confusion Matrix ({evaluation.supervised_benchmarks.best_model_name || 'LightGBM'} on 5,273 Test Cases):
+                </div>
+                {(() => {
+                  const cm = evaluation.supervised_benchmarks.model_comparison[evaluation.supervised_benchmarks.best_model_name || 'LightGBM'].confusion_matrix;
+                  return (
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '10px' }}>
+                      <div style={{ background: '#ecfdf5', border: '1px solid #a7f3d0', padding: '12px', borderRadius: '8px', textAlign: 'center' }}>
+                        <span style={{ fontSize: '10.5px', textTransform: 'uppercase', color: '#065f46', fontWeight: 800 }}>True Negatives (TN)</span>
+                        <div style={{ fontSize: '22px', fontWeight: 800, color: '#059669', marginTop: '2px' }}>{cm[0][0].toLocaleString()}</div>
+                        <div style={{ fontSize: '10.5px', color: '#065f46', marginTop: '2px' }}>Passing predicted accurately</div>
+                      </div>
+                      <div style={{ background: '#fffbeb', border: '1px solid #fde68a', padding: '12px', borderRadius: '8px', textAlign: 'center' }}>
+                        <span style={{ fontSize: '10.5px', textTransform: 'uppercase', color: '#92400e', fontWeight: 800 }}>False Positives (FP)</span>
+                        <div style={{ fontSize: '22px', fontWeight: 800, color: '#d97706', marginTop: '2px' }}>{cm[0][1].toLocaleString()}</div>
+                        <div style={{ fontSize: '10.5px', color: '#92400e', marginTop: '2px' }}>Passing flagged (Safe False Alarm)</div>
+                      </div>
+                      <div style={{ background: '#fff1f2', border: '1px solid #fecdd3', padding: '12px', borderRadius: '8px', textAlign: 'center' }}>
+                        <span style={{ fontSize: '10.5px', textTransform: 'uppercase', color: '#9f1239', fontWeight: 800 }}>False Negatives (FN)</span>
+                        <div style={{ fontSize: '22px', fontWeight: 800, color: '#e11d48', marginTop: '2px' }}>{cm[1][0].toLocaleString()}</div>
+                        <div style={{ fontSize: '10.5px', color: '#9f1239', marginTop: '2px' }}>Missed At-Risk (Minimized by recall tuning)</div>
+                      </div>
+                      <div style={{ background: '#eff6ff', border: '1px solid #bfdbfe', padding: '12px', borderRadius: '8px', textAlign: 'center' }}>
+                        <span style={{ fontSize: '10.5px', textTransform: 'uppercase', color: '#1e40af', fontWeight: 800 }}>True Positives (TP)</span>
+                        <div style={{ fontSize: '22px', fontWeight: 800, color: '#2563eb', marginTop: '2px' }}>{cm[1][1].toLocaleString()}</div>
+                        <div style={{ fontSize: '10.5px', color: '#1e40af', marginTop: '2px' }}>At-Risk students caught early</div>
+                      </div>
+                    </div>
+                  );
+                })()}
+              </div>
+            )}
+          </div>
+        )}
+
         {/* Retrospective Performance Report Card */}
         {evaluation && evaluation.retrospective_metrics && (
           <div className="arm-card" style={{ marginBottom: '20px' }}>

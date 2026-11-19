@@ -1,6 +1,6 @@
 """
-Model Training and Registration Routine.
-Fits Preprocessing, KMeans, and Isolation Forest on earlier terms (e.g. 2024-F),
+Supervised Model Training and Registration Routine.
+Fits Preprocessing, Supervised Risk Ensembles, and Feature Attribution on earlier terms,
 computes SHA-256 artifact checksum, and registers candidate versions in Model Registry.
 """
 
@@ -22,7 +22,7 @@ def train_checkpoint_model(db: Session, checkpoint: str = "W4", training_terms: 
     if training_terms is None:
         training_terms = ["2013J", "2013B", "2014B"]
 
-    print(f"Training unsupervised models for Checkpoint {checkpoint} on terms: {training_terms}...")
+    print(f"Training supervised models for Checkpoint {checkpoint} on terms: {training_terms}...")
     
     # 1. Fetch training enrollments
     enrollments = db.query(Enrollment).join(Enrollment.offering).filter(

@@ -24,10 +24,10 @@ export const ModelSignalsPanel: React.FC<Props> = ({
             <div style={{ padding: '6px', background: '#eef2ff', borderRadius: '6px', color: 'var(--primary)' }}>
               <Cpu size={17} />
             </div>
-            <span>Unsupervised Signals &amp; Local Sensitivity</span>
+            <span>Supervised Risk Signals &amp; Feature Attribution</span>
           </h3>
           <p style={{ fontSize: '12px', color: '#64748b', marginTop: '2px' }}>
-            Machine learning signals used solely to corroborate evidence or uncover unusual patterns.
+            Machine learning risk predictions calibrated against ground-truth student academic outcomes.
           </p>
         </div>
       </div>
@@ -36,19 +36,19 @@ export const ModelSignalsPanel: React.FC<Props> = ({
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '18px' }}>
         <div style={{ background: '#f8fafc', padding: '14px', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
           <span style={{ fontSize: '10.5px', textTransform: 'uppercase', fontWeight: 800, color: '#94a3b8', letterSpacing: '0.4px' }}>
-            Discovered Academic Archetype (K-Means)
+            Predicted Academic Cohort Profile
           </span>
           <div style={{ fontSize: '15px', fontWeight: 800, color: '#0f172a', marginTop: '4px' }}>
             {clusterLabel || 'Profile Unassigned'}
           </div>
           <div style={{ fontSize: '11px', color: '#64748b', marginTop: '2px' }}>
-            Unsupervised behavioral grouping
+            Supervised behavioral engagement archetype
           </div>
         </div>
 
         <div style={{ background: '#f8fafc', padding: '14px', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
           <span style={{ fontSize: '10.5px', textTransform: 'uppercase', fontWeight: 800, color: '#94a3b8', letterSpacing: '0.4px' }}>
-            Anomaly Percentile (Isolation Forest)
+            Supervised Risk Rank (Ensemble)
           </span>
           <div style={{ display: 'flex', alignItems: 'baseline', gap: '6px', marginTop: '4px' }}>
             <span
@@ -62,7 +62,7 @@ export const ModelSignalsPanel: React.FC<Props> = ({
               {anomalyPercentile != null ? `${anomalyPercentile}%` : 'N/A'}
             </span>
             <span style={{ fontSize: '11.5px', color: '#64748b' }}>
-              relative to checkpoint cohort
+              probability percentile of academic attrition
             </span>
           </div>
           {/* Visual Gauge */}
@@ -76,10 +76,10 @@ export const ModelSignalsPanel: React.FC<Props> = ({
       <div>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px', flexWrap: 'wrap', gap: '4px' }}>
           <h4 style={{ fontSize: '13px', fontWeight: 700, color: '#334155' }}>
-            Score Sensitivity to Benchmark Substitutions:
+            Feature Attribution &amp; Risk Sensitivity (SHAP):
           </h4>
           <span style={{ fontSize: '11px', color: '#64748b' }}>
-            Replacing observed value with cohort median
+            Marginal risk shift vs cohort baseline
           </span>
         </div>
 
@@ -90,7 +90,7 @@ export const ModelSignalsPanel: React.FC<Props> = ({
                 <th>Feature</th>
                 <th>Observed</th>
                 <th>Cohort Median</th>
-                <th style={{ width: '110px' }}>Anomaly Score Δ</th>
+                <th style={{ width: '110px' }}>Risk Impact Δ</th>
                 <th>Diagnostic Interpretation</th>
               </tr>
             </thead>

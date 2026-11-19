@@ -177,7 +177,7 @@ export const OverviewPage: React.FC<Props> = ({ onNavigate }) => {
             <span style={{ fontSize: '12px', opacity: 0.85 }}>Checkpoint {checkpoint} • 14 Days to Week 6 Census</span>
           </div>
           <div style={{ fontSize: '16px', fontWeight: 700, lineHeight: 1.4 }}>
-            Unsupervised models flagged <strong>36.5% of cohort</strong> as High Priority requiring proactive advisor outreach before official census.
+            Supervised early warning models predicted <strong>36.5% of cohort</strong> at-risk (High Priority), requiring proactive advisor outreach before official census.
           </div>
           <div style={{ fontSize: '12.5px', opacity: 0.8, marginTop: '4px' }}>
             Primary drivers: assignment submission latency and severe platform engagement deficit in VLE study days.

@@ -1,16 +1,34 @@
 """
-Unsupervised Model Evaluation & Retrospective Outcome Auditing.
-Evaluates cluster profile stability, alert volume shifts due to model corroboration,
-and retrospective precision/recall against final course outcomes.
+Supervised Model Evaluation & Retrospective Outcome Auditing.
+Evaluates supervised classification architectures, alert calibration,
+and retrospective precision/recall against final student outcomes.
 """
 
+import os
+import json
 from typing import Dict, Any, List
 import pandas as pd
 import numpy as np
 from sqlalchemy.orm import Session
+from ..config import settings
 from ..models import Enrollment, FinalOutcome, PublishedAssessment
 
 def evaluate_retrospective_performance(db: Session, checkpoint: str = "W4") -> Dict[str, Any]:
+    # Load precomputed supervised benchmark metrics across OULAD test cohort
+    supervised_benchmarks = None
+    possible_paths = [
+        os.path.join(settings.BASE_DIR, "ML", "artifacts", "metrics.json"),
+        os.path.join(settings.BASE_DIR, "ml", "artifacts", "metrics.json"),
+    ]
+    for p in possible_paths:
+        if os.path.exists(p):
+            try:
+                with open(p, "r") as f:
+                    supervised_benchmarks = json.load(f)
+                break
+            except Exception:
+                pass
+
     # Query published assessments for this checkpoint
     assessments = db.query(PublishedAssessment).filter(
         PublishedAssessment.checkpoint == checkpoint
@@ -20,7 +38,8 @@ def evaluate_retrospective_performance(db: Session, checkpoint: str = "W4") -> D
         return {
             "checkpoint": checkpoint,
             "status": "No published assessments found for evaluation",
-            "sample_size": 0
+            "sample_size": 0,
+            "supervised_benchmarks": supervised_benchmarks
         }
 
     # Retrieve associated final outcomes
@@ -74,7 +93,7 @@ def evaluate_retrospective_performance(db: Session, checkpoint: str = "W4") -> D
         },
         "model_corroboration_impact": {
             "corroborated_cases_count": len(corroborated_cases),
-            "description": "Cases elevated from Monitor to High Priority solely due to elevated anomaly percentile (>=90%) and adverse sensitivity."
+            "description": "Cases elevated from Monitor to High Priority due to elevated supervised risk percentile (>=90%) and adverse feature sensitivity."
         },
         "retrospective_metrics": {
             "evaluated_cohort_size": tp + fp + fn + tn,
@@ -86,5 +105,6 @@ def evaluate_retrospective_performance(db: Session, checkpoint: str = "W4") -> D
             "recall": recall,
             "f1_score": f1,
             "target_definition": "Student final outcome recorded as 'Fail' or 'Withdrawn'"
-        }
+        },
+        "supervised_benchmarks": supervised_benchmarks
     }

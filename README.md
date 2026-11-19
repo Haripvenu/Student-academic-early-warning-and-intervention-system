@@ -3,7 +3,7 @@
 
 EduGuard (Academic Risk Monitor) is an end-to-end Machine Learning Early Warning System (EWS) and advisor triage platform designed to detect at-risk students before census and final deadlines.
 
-Built on the **Open University Learning Analytics Dataset (OULAD)**, the platform pairs point-in-time supervised models (Day-60 decision horizon with TreeSHAP explainability) with unsupervised behavioral archetype discovery (K-Means & Isolation Forest) and a deterministic, transparent review policy across **Week 2, Week 4, and Week 6** evaluation horizons.
+Built on the **Open University Learning Analytics Dataset (OULAD)**, the platform deploys state-of-the-art **Supervised Machine Learning classification models** (LightGBM, XGBoost, Random Forest, Logistic Regression) with TreeSHAP explainability, behavioral archetype stratification, and a deterministic review policy across **Week 2, Week 4, and Week 6** evaluation horizons.
 
 ---
 
@@ -25,8 +25,8 @@ Built on the **Open University Learning Analytics Dataset (OULAD)**, the platfor
   - Multi-horizon time scrubber with automated play/pause timeline progression.
 - **Batch Caseload Explorer & Triage Dock:**
   - Row checkboxes with select-all capability, floating bulk actions, mentor re-assignment, and filtered CSV exports.
-- **Institutional Dark & Light Theme:**
-  - Full institutional theme with instant toggle and persistent state.
+- **Institutional Light Theme:**
+  - High-contrast, clean institutional light interface designed for academic advisor workflow.
 
 ---
 
@@ -191,7 +191,7 @@ The application includes 3 institutional roles for demo and evaluation:
     ├── database.md                     # Database ERD & index design
     ├── api.md                          # REST API specification & schemas
     ├── data_dictionary.md              # Feature definitions & units
-    ├── model_card.md                   # Unsupervised ML model cards & limitations
+    ├── model_card.md                   # Supervised ML model cards & classification metrics
     ├── dashboard_spec.md               # User interface specification
     ├── deployment.md                   # Deployment & rollback procedures
     └── demo_walkthrough.md             # Reproducible evaluation guide

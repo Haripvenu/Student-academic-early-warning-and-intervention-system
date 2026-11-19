@@ -90,7 +90,7 @@ export const LoginPage: React.FC<Props> = ({ onSuccess }) => {
             Academic Risk Monitor
           </h2>
           <p style={{ fontSize: '13px', color: '#64748b', marginTop: '4px' }}>
-            Unsupervised Machine Learning Early Warning System (EWS-ARM v2.4)
+            Supervised Machine Learning Early Warning System (EWS-ARM v2.4)
           </p>
         </div>
 

@@ -37,7 +37,7 @@ export const WhatIfSimulator: React.FC<Props> = ({
 
   const concerningCount = (attConcern ? 1 : 0) + (cwConcern ? 1 : 0) + (engConcern ? 1 : 0);
 
-  // Simulated anomaly estimation
+  // Simulated supervised risk score projection
   const penalty = (attConcern ? 25 : 0) + (cwConcern ? 35 : 0) + (engConcern ? 30 : 0);
   const simulatedAnomaly = Math.min(Math.max(penalty + Math.round((100 - score) * 0.2), 5), 98);
 

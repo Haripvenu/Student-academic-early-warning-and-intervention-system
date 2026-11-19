@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "academic-risk-monitor"
 version = "1.0.0"
-description = "Unsupervised Machine Learning Early Warning System for Higher Education"
+description = "Supervised Machine Learning Early Warning System for Higher Education"
 readme = "README.md"
 authors = [{ name = "Academic Risk Monitor Team" }]
 requires-python = ">=3.10"

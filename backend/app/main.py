@@ -15,7 +15,7 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(
     title=settings.APP_NAME,
-    description="Unsupervised Machine Learning Early Warning System for Higher Education",
+    description="Supervised Machine Learning Early Warning System for Higher Education",
     version="1.0.0",
     lifespan=lifespan
 )
